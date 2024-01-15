@@ -18,3 +18,13 @@ if menu == '1':
 elif menu == '2':
     celsius = float(input('Input Celcius : '))
     print(f'Celsius : {celsius}C, Fahrenheit : {((celsius*9.0/5.0)+32.0):.4f}F')
+
+letter = input('Input alphabet letter : ')
+#vowels = {'a', 'e', 'i', 'o', 'u'}  # set
+vowels = "aeiuo"  # str
+print(type(vowels))
+if letter in vowels:  # in
+    print(f'{letter} is a vowel~')
+else:
+    print(f'{letter} is a consonant!')
+
