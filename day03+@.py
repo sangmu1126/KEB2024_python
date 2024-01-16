@@ -7,7 +7,3 @@ for i in subjects:
     print(f"key : {i}, value : {subjects[i]}")
 
 numbers = input("Input first, second number : ").split()
-
-for number in range(int(numbers[0]), int(numbers[1])):
-    is_Prime = True
-    if number < 2:
