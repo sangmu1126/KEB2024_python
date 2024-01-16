@@ -12,3 +12,7 @@ while(1):
     elif menu == '2':
         celsius = float(input('Input Celcius : '))
         print(f'Celsius : {celsius}C, Fahrenheit : {((celsius*9.0/5.0)+32.0):.4f}F')
+
+# 3 - 소수 판정
+# 4 - 두 수 사이의 소수
+# p.143 연습문제 6.5

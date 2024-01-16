@@ -1,7 +1,9 @@
 # prime number
-number = int(input("Input number : "))
-is_prime = True
+numbers = input("Input first second number : ").split()
+n1 = int(numbers[0])
+n2 = int(numbers[1])
 
+<<<<<<< HEAD
 subjects = {'python':'kim', 'c++':'sung', 'database':'kang', 'linux':'lee'}
 print("{0[python]} {0[c++]}".format(subjects))
 
@@ -14,8 +16,16 @@ else:
             is_prime = False
             break
         i = i + 1
+=======
+for number in range(n1, n2+1):
+    is_prime = True
+>>>>>>> 5a76e5d14ff24a7028ef7a3c40655cdb7c40db06
 
-    if is_prime:
-        print(f'{number} is prime number')
+    if number < 2:
+        pass
     else:
-        print(f'{number} is NOT prime number!')
+        for i in range(2, number):
+            if number % i == 0:
+                is_prime = False
+                break
+        if is_prime: print(number, end=' ')
