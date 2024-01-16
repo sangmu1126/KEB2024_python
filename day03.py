@@ -8,4 +8,6 @@ try:
 except ValueError:
     print('해당과목이 존재하지 않습니다')
 
+subjects = {'python':'kim', 'c++':'sung', 'database':'kang', 'linux':'lee'}
+print("{0[python]} {0[c++]}".format(subjects))
 
