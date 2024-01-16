@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 dec = 65
 octal = 0o101
 hexadecimal = 0x41
@@ -28,3 +29,8 @@ if letter in vowels:  # in
 else:
     print(f'{letter} is a consonant!')
 
+=======
+l = [1, 3, 3, 2, 4]  # list
+s = {1, 3, 3, 2, 4}  # set
+print(l, s)  # [1, 3, 3, 2, 4] {1, 2, 3, 4}
+>>>>>>> 13554d7b896d4a5672d167110f0af9eab6d05bd6
