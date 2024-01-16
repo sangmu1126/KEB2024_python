@@ -1,14 +1,11 @@
-subjects = ["python", "c++", "database"]
-subjects_string = " / ".join(subjects)
-print(subjects_string)
+# preview
+subjects = "python c++ database linux"
+print('%e' % 0.7045)
+print(subjects.isalnum())
+subject = input("수강신청과목 입력 : ")
+try:
+    print(f"해당 과목이 존재합니다. 위치는 {subjects.index(subject)}번 인덱스입니다.")
+except ValueError:
+    print('해당과목이 존재하지 않습니다')
 
-numbers = input("FirstNumber SecondNumber : ").split()
-#print(numbers[0] + numbers[1])  # concatenation
-print(int(numbers[0]) + int(numbers[1]))  # arithmetic operation
-
-# course = "2024 KEB Bootcamp"
-# print(course)
-# #list_course = course.split()
-# list_course = course.split('B')
-# print(list_course)
 
