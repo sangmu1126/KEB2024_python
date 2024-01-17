@@ -11,3 +11,5 @@ print(subjects)
 copy_subjects = sorted(subjects)
 print(subjects)
 print(copy_subjects)
+
+#8.10까지 과제
