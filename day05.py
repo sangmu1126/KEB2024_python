@@ -1,50 +1,50 @@
-# prime number with function
-def isprime(n) -> bool:
+# decorator
+def description(f):  # closure
+    def inner(*args):
+        print(f.__name__)
+        print(f.__doc__)
+        r = f(*args)
+        return r
+
+    return inner
+
+
+def squares(n):
     """
-    매개변수로 넘겨 받은 수가 소수인지 여부를 boolean으로 리턴
-    :param n: 판정할 매개변수
-    :return: 소수면 True, 소수가 아니면 False
+    제곱 함수
     """
-    if n < 2:
-        return False
-    else:
-        i = 2
-        while i*i <= n:
-            if n % i == 0:
-                return False
-            i += 1
-        return True
+    return n * n
+
+@description
+def power(b, e):
+    """
+    거듭제곱 함수
+    """
+    result = 1
+    for _ in range(e):
+        result = result * b
+    return result
 
 
-while True:
-    menu = input("1) Fahrenheit -> Celsius   2) Celsius -> Fahrenheit   3) Prime1   4) Prime2   5) Quit program : ")
+f1 = description(squares)
+print(f1(9))
+print(power(2, 10))
+# f2 = description(power)
+# print(f2(2, 10))
 
-    if menu == '1':
-        fahrenheit = float(input('Input Fahrenheit : '))
-        print(f'Fahrenheit : {fahrenheit}F, Celsius : {((fahrenheit-32.0)*5.0/9.0):.4f}C')
-    elif menu == '2':
-        celsius = float(input('Input Celsius : '))
-        print(f'Celsius : {celsius}C, Fahrenheit : {((celsius*9.0/5.0)+32.0):.4f}F')
-    elif menu == '3':
-        number = int(input("Input number : "))
-        if isprime(number):
-            print(f'{number} is prime number')
-        else:
-            print(f'{number} is NOT prime number!')
-    elif menu == '4':
-        numbers = input("Input first second number : ").split()
-        n1 = int(numbers[0])
-        n2 = int(numbers[1])
+# print(squares(7))
+# print(squares.__doc__)
 
-        if n1 > n2:
-            n1, n2 = n2, n1
-
-        for number in range(n1, n2 + 1):
-            if isprime(number):
-                print(number, end=' ')
-        print()
-    elif menu == '5':
-        print('Terminate Program.')
-        break
-    else:
-        print('Invalid Menu!')
+# def my_range(first=0, last=5, step=1):
+#     number = first
+#     while number < last:
+#         yield number
+#         number += step
+#
+# r = my_range()
+# print(r, type(r))
+#
+# for x in r:
+#     print(x)
+# for x in r:
+#     print(x)
