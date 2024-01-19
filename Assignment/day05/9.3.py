@@ -5,9 +5,12 @@ def test(func):
         print('end')
     return test_1
 
-@test
 def p():
     print('decorator')
+
+p = test(p)
+print(type(p))
+print(p)
 
 p()
 

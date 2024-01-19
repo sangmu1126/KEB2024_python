@@ -9,4 +9,5 @@ cnt = 1
 for k in r:
     if cnt==3:
         print(k)
+        break
     cnt+=1
