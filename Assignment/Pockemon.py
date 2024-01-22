@@ -4,11 +4,14 @@ import random
 class Pockemon:
     def __init__(self, name):
         self.name = name
-        #self.type = type
-        #hp
 
     def hp(self):
         pass
+    def setLv(self, pkmList):
+        self.level = pkmList[self.name][0]
+    def level(self):
+        return self.level
+
     def getType(self, pkmList):
         # for pkmDict in pkmlist:
         #     for pkm in pkmDict:
@@ -17,11 +20,10 @@ class Pockemon:
 
     def attack(self,attType,defType):
         pass
-    def setSkill(self, skillList):
-        self.skills = skillList
+    # def setSkill(self, skillList):
+    #     self.skills = skillList
     def getSkills(self, type):
         return skill_type[type]
-
 
     #def attack(self):
     def info(self):
@@ -30,16 +32,16 @@ class Pockemon:
         print(f'타입 : {self.type}')
         print(f'기술 : {self.skill}')
 
-class Level(Pockemon):
-    def __init__(self, name, lev):
-        super().__init__(name)
-        self.level = lev
-    def setLevel(self, num, name):
-        self.level = PockemonList[self.name]
-    def getLevel(self, Level):
-        print()
-    def levelUp(self):
-        self.level += 1
+# class Level(Pockemon):
+#     def __init__(self, name, lev):
+#         super().__init__(name)
+#         self.level = lev
+#     def setLevel(self, num, name):
+#         self.level = PockemonList[self.name]
+#     def getLevel(self, Level):
+#         print()
+#     def levelUp(self):
+#         self.level += 1
 
 # class Type(Pockemon):
 #     def __init__(self, name, type):
@@ -85,7 +87,7 @@ class MyMon(Pockemon):
 class EnemyMon(Pockemon):
     def __init__(self, name):
         super().__init__(name)
-class WildMon(Level, Pockemon):
+class WildMon(Pockemon):
     def __init__(self, name, lev):
         super().__init__(name, lev)
     def begin_(self):
@@ -225,8 +227,6 @@ def findPkm(num):
 
 
 
-
-
 # PkmType()
 
 # GAME START
@@ -286,8 +286,8 @@ while True:
         print("="*150)
         loc = Chr.move(locations, 0)
         print(f"현재 위치 : {loc}")
-        ranWild = Pockemon(random.choice([i for i in PockemonLev1]))
-        nowWild = WildMon(ranWild.name, PockemonLev1[ranWild.name][0])
+        nowWild = Pockemon(random.choice([i for i in PockemonLev1]))
+        nowWild.setLv(PockemonLev1)
         print(f"""
     야생의 {nowWild.name}(Lv.{nowWild.level}) 이/가 나타났다!
     가라 {myPkm.name}!
