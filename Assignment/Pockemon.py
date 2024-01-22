@@ -1,3 +1,5 @@
+import random
+
 class Pockemon:
     def __init__(self, name):
         self.name = name
@@ -16,9 +18,12 @@ class Pockemon:
         print(f'타입 : {self.type}')
         print(f'기술 : {self.skill}')
 
-class level(Pockemon):
-    def __init__(self, num):
+class Level(Pockemon):
+    def __init__(self, num, ):
         self.level = num
+    def setLevel(self, num, name):
+        self.level = PockemonList[self.name]
+    def getLevel(self, Level):
     def levelUp(self):
         self.level += 1
 
@@ -46,7 +51,7 @@ class MyMon(Pockemon):
 class EnemyMon(Pockemon):
     def __init__(self, name):
         super().__init__(name)
-class WildMon(Pockemon):
+class WildMon(Pockemon, Level):
     def __init__(self, name):
         super().__init__(name)
     def begin_(self):
@@ -76,7 +81,7 @@ PockemonEv1 = ['이상해풀', '리자드', '어니부기']
 PockemonEv2 = ['이상해꽃', '리자몽', '거북왕']
 PockemonLev1 = {'캐터피' : 2, '구구':3, '뿔충이':4, '꼬렛':2}
 PockemonLev2 = {'니드런' : 8, '모래두지':11, '아보':13, '깨비참' : 9}
-PockemonLev3 = {'paras', 'venonat'}
+PockemonLev3 = {'파라스' : 13, '골뱃' : 17, '고라파덕' : 14, '우츠동' : 15}
 PockemonLev4 = {'찌리리공':20,'텅구리':25,'시드라':29, '폴리곤':28}
 PockemonLev5 = {'레어코일':30, '롱스톤':31, '날쌩마':38,'아쿠스타':36}
 PockemonLev6 = {'강챙이':42,'시라소몬':45, '홍수몬':45, '또도가스':48}
@@ -87,10 +92,7 @@ PockemonLev10 = {'프리져' : 74, '썬더' : 75, '파이어' : 76}
 PockemonFinal = {'뮤츠': 100}
 PockemonChampion = {'역상성' : 92, '나시' : 81, '갸랴도스' : 84, '후딘' : 85, '마기라스' : 88, '윈디' : 90 }
 PockemonRed = {'피카츄' : 100, '잠만보' : 96, '라프라스': 94, '이상해꽃' : 97, '거북왕': 98, '리자몽' : 99}
-PockemonList = [PockemonStarting,
-                PockemonEv1,
-                PockemonEv2,
-                PockemonLev1,
+PockemonList = [PockemonLev1,
                 PockemonLev2,
                 PockemonLev3,
                 PockemonLev4,
@@ -203,10 +205,14 @@ while True:
                     '숫자를 입력하세요 : '
                     ))
     if act==1:
+        print('')
+        print("="*150)
         loc = Chr.move(locations, 0)
-        print(f"\n현재 위치 : {loc}")
+        print(f"현재 위치 : {loc}")
+        nowWild = WildMon(random.choice([i for i in PockemonLev1]))
+        nowWild.level(PockemonLev1[nowWild.name])
         print(f"""
-    야생의 ...가 나타났다!
+    야생의 {nowWild.name} (nowWild.level) 이/가 나타났다!
     가라 {myPkm.name}!
         """)
         toDo = input('무엇을 할까?\n'
@@ -216,7 +222,7 @@ while True:
         if toDo==1:
             print()
         else:
-            Chr.run(enemy)
+            pass
         if toDo==1:
             print('skills')
         else:
