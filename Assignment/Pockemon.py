@@ -5,6 +5,8 @@ class Pockemon:
         self.name = name
         #self.type = type
         #hp
+    def attack(self,attType,defType):
+        pass
     def setSkill(self, skillList):
         self.skills = skillList
     def getSkills(self):
@@ -19,14 +21,20 @@ class Pockemon:
         print(f'기술 : {self.skill}')
 
 class Level(Pockemon):
-    def __init__(self, num, ):
-        self.level = num
+    def __init__(self, name, lev):
+        super().__init__(name)
+        self.level = lev
     def setLevel(self, num, name):
         self.level = PockemonList[self.name]
     def getLevel(self, Level):
+        print()
     def levelUp(self):
         self.level += 1
 
+class Type(Pockemon):
+    def __init__(self, name, type):
+        super().__init__(name)
+        self.type = type
 class MyMon(Pockemon):
     def __init__(self, name, level=1):
         super().__init__(name)
