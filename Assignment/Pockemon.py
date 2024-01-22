@@ -3,13 +3,18 @@ class Pockemon:
         self.name = name
         #self.type = type
         #hp
+    def setSkill(self, skillList):
+        self.skills = skillList
+    def getSkills(self):
+        return self.skills
+
 
     #def attack(self):
     def info(self):
         print(f'이름 : {self.name}')
         print(f'레벨 : {self.level}')
         print(f'타입 : {self.type}')
-        #print(f'기술' : {self.skill})
+        print(f'기술 : {self.skill}')
 
 class level(Pockemon):
     def __init__(self, num):
@@ -18,14 +23,14 @@ class level(Pockemon):
         self.level += 1
 
 class MyMon(Pockemon):
-    def __init__(self, name):
+    def __init__(self, name, level=1):
         super().__init__(name)
+        self.level = level
+
     # def evolve(self):
     #     if (self.name)
     #     elif
     #     print(f"{Character.name}은(는) {name}으로 진화했다!")
-    def run(self):
-        print(f"{Character.name}은 {EnemyMon.name}으로부터 간신히 도망쳤다..!")
     def store(self):
         print(f"{self.name}은 완전히 회복되었다!")
     def rivalMon(self):
@@ -54,31 +59,37 @@ class Character:
     def __init__(self, name):
         self.name = name
 
-    def move(self):
+    def move(self, loc, idx):
         print()
+        return loc[idx+1]
+    def run(self, enemy):
+        print(f"{self.name}은 {enemy.name}으로부터 간신히 도망쳤다..!")
     def watchDict(self):
         print(f'{Character.name}은 도감을 본다.')
     def dead(self):
         quit()
 
 PockemonType = ['노말', '불', '물', '풀', '전기', '얼음', '격투', '독', '땅', '비행', '에스퍼', '벌레', '바위',
-                '고스트', '드래곤', '악', '강철',
-                ]
+                '고스트', '드래곤', '악', '강철']
 PockemonStarting = ['이상해씨', '파이리', '꼬부기', '피카츄']
+PockemonEv1 = ['이상해풀', '리자드', '어니부기']
+PockemonEv2 = ['이상해꽃', '리자몽', '거북왕']
 PockemonLev1 = {'캐터피' : 2, '구구':3, '뿔충이':4, '꼬렛':2}
 PockemonLev2 = {'니드런' : 8, '모래두지':11, '아보':13, '깨비참' : 9}
 PockemonLev3 = {'paras', 'venonat'}
-PockemonLev4 = {}
-PockemonLev5 = {'레어코일', '롱스톤', '날쌩마'}
-PockemonLev6 = {'아쿠스타','시라소몬', '홍수몬', '또도가스'}
-PockemonLev7 = {'마그마', '에레브', '쁘사이저','팬텀'}
-PockemonLev8 = {'프테라', '투구푸스','후딘','코뿌리'}
+PockemonLev4 = {'찌리리공':20,'텅구리':25,'시드라':29, '폴리곤':28}
+PockemonLev5 = {'레어코일':30, '롱스톤':31, '날쌩마':38,'아쿠스타':36}
+PockemonLev6 = {'강챙이':42,'시라소몬':45, '홍수몬':45, '또도가스':48}
+PockemonLev7 = {'마그마':50, '에레브':50, '쁘사이저':54,'팬텀':52,'투구푸스':57}
+PockemonLev8 = {'프테라' : 60, '괴력몬':62,'후딘':63,'코뿌리' : 68, '나인테일': 64}
 PockemonLev9 = {'라프라스': 84, '갸라도스' : 88, '켄타우로스' : 81, '망나뇽' : 91}
-PockemonLev10 = {'프리져' : 84, '썬더' : 85, '파이어' : 86}
+PockemonLev10 = {'프리져' : 74, '썬더' : 75, '파이어' : 76}
 PockemonFinal = {'뮤츠': 100}
 PockemonChampion = {'역상성' : 92, '나시' : 81, '갸랴도스' : 84, '후딘' : 85, '마기라스' : 88, '윈디' : 90 }
 PockemonRed = {'피카츄' : 100, '잠만보' : 96, '라프라스': 94, '이상해꽃' : 97, '거북왕': 98, '리자몽' : 99}
 PockemonList = [PockemonStarting,
+                PockemonEv1,
+                PockemonEv2,
                 PockemonLev1,
                 PockemonLev2,
                 PockemonLev3,
@@ -113,7 +124,19 @@ ghost_skill = ['야습', '괴상한바람', '섀도크루', '섀도볼', '고스
 dragon_skill = ['더블촙', '용의파동', '드래곤다이브', '역린', '용성군']
 evil_skill = ['따라가때리기', '보복', '탁쳐서떨구기', '악의파동', '속임수']
 stell_skill = ['불릿펀치', '메탈크로우', '아이언헤드', '러스터캐논', '코멧펀치']
-mewtwo_skill = ['파동탄','HP회복''사이코커터','사이코브레이크']
+mewtwo_skill = ['미래예지', '파동탄', 'HP회복', '사이코커터', '사이코브레이크']
+
+skills = [normal_skill, fire_skill, water_skill, glass_skill,electric_skill,ice_skill,fighting_skill,poison_skill,
+flying_skill,psychic_skill,ground_skill,bug_skill,rock_skill,ghost_skill,dragon_skill,evil_skill,stell_skill,mewtwo_skill]
+
+damage = dict()
+for sk in skills:
+    for i, skill in enumerate(sk):
+        damage[skill] = i+1
+
+skill_type = dict(zip(PockemonType, skills))
+print(skill_type)
+print(damage)
 
 locations = ['태초마을', '1번도로', '상록시티', '회색시티', '블루시티', '보라타운',
              '홍련마을', '석영고원', '23번도로', '포켓몬리그', '이름없는동굴', '28번도로','은빛산']
@@ -136,9 +159,10 @@ print("""
     포켓몬 세계에 온 것을 환영한다!
     나는 포켓몬을 연구하는 오박사 라고 한다.
 """)
-Character.name = input('너의 이름은 무엇이니? : ')
+chrName = input('너의 이름은 무엇이니? : ')
+Chr = Character(chrName)
 print(f"""
-    반갑구나, {Character.name}.
+    반갑구나, {Chr.name}.
     이 세계에는 수많은 포켓몬들이 있단다.
     이곳을 여행하기 위해서는 포켓몬의 도움이 필요해.   
     """)
@@ -164,7 +188,9 @@ print(f"""
     내가 지켜보고 있으마. 또 보자꾸나!
     """)
 print("="*150)
+loc = locations[0]
 print("\n현재 위치 : 태초마을\n")
+
 act = 0
 while True:
     act = int(input('무엇을 할까?\n'
@@ -177,7 +203,25 @@ while True:
                     '숫자를 입력하세요 : '
                     ))
     if act==1:
-        pass
+        loc = Chr.move(locations, 0)
+        print(f"\n현재 위치 : {loc}")
+        print(f"""
+    야생의 ...가 나타났다!
+    가라 {myPkm.name}!
+        """)
+        toDo = input('무엇을 할까?\n'
+                         '1. 전투\n'
+                         '2. 도망친다\n'
+                         '숫자를 입력하세요 : ')
+        if toDo==1:
+            print()
+        else:
+            Chr.run(enemy)
+        if toDo==1:
+            print('skills')
+        else:
+            print("""   무사히 도망쳤다...!""")
+            print("""   상대 레벨이 높아 도망칠 수 없다!""")
     elif act==2:
         pass
     elif act==3:
