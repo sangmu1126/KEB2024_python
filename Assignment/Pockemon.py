@@ -36,10 +36,13 @@ class Pockemon:
 
     #def attack(self):
     def getInfo(self):
-        print(f'이름 : {self.name}')
-        print(f'레벨 : {self.level}')
-        print(f'타입 : {self.type}')
-        print(f'기술 : {self.skill}')
+        print("="*150)
+        print(f"""
+    이름 : {self.name}
+    레벨 : {self.level}
+    H P : {int(self.hp)}
+    타입 : {self.type}
+    기술 : {', '.join(self.getSkills(self.type))}""")
 
     def lvUp(self):
         global locIdx
@@ -103,6 +106,7 @@ class MyMon(Pockemon):
             rivalPkm = '이상해꽃'
         else:
             rivalPkm = '이브이'
+        return rivalPkm
     def win(self, isWin):
         if isWin==1:
             self.lvUp()
@@ -214,12 +218,10 @@ def damageDec(eff):
 
 PockemonType = ['노말', '불', '물', '풀', '전기', '얼음', '격투', '독', '땅', '비행', '에스퍼', '벌레', '바위',
                 '고스트', '드래곤', '악', '강철']
-PkmSrtList = ['이상해씨', '파이리', '꼬부기', '피카츄']
-PockemonStarting = {'이상해씨':[5,'풀'], '파이리':[5,'풀'], '꼬부기':[5,'풀'], '피카츄':[5,'전기'],
-                    '이상해풀': [25, '풀'], '리자드': [25, '풀'], '어니부기': [25, '풀'],
+PkmSrtList = ['이상해씨', '파이리', '꼬부기']
+PockemonStarting = {'이상해씨':[5,'풀'], '파이리':[5,'불'], '꼬부기':[5,'물'],
+                    '이상해풀': [25, '풀'], '리자드': [25, '불'], '어니부기': [25, '물'],
                      '이상해꽃': [55, '풀'], '리자몽': [55, '불'], '거북왕': [55, '물']}
-# PockemonEv = {'이상해풀':[25,'풀'], '리자드':[25,'풀'], '어니부기':[25,'풀'],
-#               '이상해꽃':[55,'풀'], '리자몽':[55,'불'], '거북왕':[55,'물']}
 PockemonLev1 = {'캐터피' : [2, '벌레'], '구구':[3,'비행'], '뿔충이':[6,'벌레'] , '꼬렛':[8, '노말']}
 PockemonLev2 = {'니드런' : [8,'독'] , '모래두지': [11, '땅'] , '아보':[13,'독'], '깨비참' : [9,'비행']}
 PockemonLev3 = {'파라스' : [13,'물'], '골뱃' : [17,'비행'], '고라파덕' : [14,'물'], '우츠동' : [18,'풀']}
@@ -282,7 +284,7 @@ skill_type = dict(zip(PockemonType, skills))
 print(skill_type)
 print(damage)
 
-locations = ['태초마을', '1번도로', '상록시티', '8번도로', '회색시티', '20번 수로', '블루시티', '17번도로', '갈색시티',
+locations = ['태초마을', '1번도로', '상록시티', '8번도로', '회색시티', '20번 수로', '블루시티', '17번도로', '갈색시티', '9번동굴',
              '보라타운', '4번도로', '무지개시티', '16번도로', '연분홍시티', '사파리존', '노랑시티', '28번도로', '홍련마을', '14번도로',
              '석영고원', '23번도로', '포켓몬리그', '동성폭포', '이름없는동굴', '28번도로', '은빛산', '은빛산 정상']
 def checkPkmName(pkm):
@@ -321,8 +323,7 @@ print(f"""
 startPkm = input('너와 함께할 포켓몬을 고르렴!\n'
                  '1. 이상해씨\n'
                  '2. 파이리\n'
-                 '3. 꼬부기\n'
-                 '4. 피카츄\n\n'
+                 '3. 꼬부기\n\n'
                  '당신의 포켓몬은? : ')
 
 if (checkPkmName(startPkm)):
@@ -370,8 +371,8 @@ while True:
         nowWild = Pockemon(random.choice([i for i in PkmChoice(locIdx)]))
         nowWild.setInfo(PkmChoice(locIdx)[nowWild.name])
         print(f"""
-    야생의 {nowWild.name}(Lv.{nowWild.getLevel()}) 이(가) 나타났다! (HP : {int(nowWild.hp)})
-    가라 {myPkm.name}!
+    야생의 {nowWild.name}(Lv.{nowWild.getLevel()}) 이(가) 나타났다!  (HP : {int(nowWild.hp)})
+    가라 {myPkm.name}(Lv.{myPkm.getLevel()})!
         """)
         toDo = int(input('무엇을 할까?\n'
                          '1. 전투\n'
@@ -417,13 +418,23 @@ while True:
             Chr.run(myPkm.getLevel(), nowWild.getLevel())
     elif act==2:
         if myPkm.getLevel() > 10:
-            Chr.move(locations)
-            print(f"""
+            print("""
+    이 앞의 포켓몬들은 매우 위험하단다!
+    이 곳에서 수련하는 것을 추천한단다...
+    """)
+            real = input('정말 다음 마을로 이동할까? (y/n) : ')
+            if real == 'y':
+                loc = Chr.move(locations)
+                loc = Chr.move(locations)
+                print(f"""
     {loc}에 도착했다!""")
+            else:
+                pass
         else:
-            pass
+            print(f"""
+    아직 {myPkm.name}의 레벨이 너무 낮아서 갈 수 없단다!""")
     elif act==3:
-        pass
+        myPkm.getInfo()
     elif act==4:
         pass
     elif act==0:
