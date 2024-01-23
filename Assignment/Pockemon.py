@@ -42,7 +42,8 @@ class Pockemon:
     레벨 : {self.level}
     H P : {int(self.hp)}
     타입 : {self.type}
-    기술 : {', '.join(self.getSkills(self.type))}""")
+    기술 : {', '.join(self.getSkills(self.type))}
+    """)
 
     def lvUp(self):
         global locIdx
@@ -516,7 +517,6 @@ while True:
                                 break
                         if isWin == 1:
                             myPkm.lvUp()
-                            break
                         else:
                             locIdx -= 1
                             print(f"""
@@ -524,8 +524,8 @@ while True:
     
     {Chr.name}은 눈 앞이 깜깜해졌다...
     서둘러 포켓몬센터로 돌아가자...""")
-                            break
                         myPkm.restore(PockemonStarting[myPkm.name])
+                        break
                     # if isWin==1:
                     #     break
                     else:  # toDo_반복문
@@ -534,7 +534,7 @@ while True:
     """)
                 if isWin==0:
                     break
-                if finalWin==1:
+                if finalWin==True:
                     print("승리했다!")
                     break
 
@@ -548,7 +548,7 @@ while True:
 
     if finalWin==True:
         break
-
+print("포켓몬 챔피언")
 # 뮤츠
 
 #레드
