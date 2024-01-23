@@ -285,8 +285,8 @@ print(skill_type)
 print(damage)
 
 locations = ['태초마을', '1번도로', '상록시티', '8번도로', '회색시티', '20번 수로', '블루시티', '17번도로', '갈색시티', '9번동굴',
-             '보라타운', '4번도로', '무지개시티', '16번도로', '연분홍시티', '사파리존', '노랑시티', '28번도로', '홍련마을', '14번도로',
-             '석영고원', '23번도로', '포켓몬리그', '동성폭포', '이름없는동굴', '28번도로', '은빛산', '은빛산 정상']
+             '보라타운', '4번도로', '무지개시티', '16번도로', '연분홍시티', '사파리존', '노랑시티', '28번도로', '홍련마을', '동성폭포',
+             '석영고원', '포켓몬리그', '명예의 전당', '이름없는동굴', '은빛산', '은빛산 정상']
 def checkPkmName(pkm):
     if (pkm in PkmSrtList):
         return pkm
@@ -300,10 +300,7 @@ def findPkm(num):
         return
 
 # Settings
-# for pkmDict in PockemonList:
-#     for pkm in pkmDict:
-#         Type(pkm, pkmDict[pkm][1])
-#     #Type(pkm.keys(), list(pkm.values())[1])
+
 
 # PkmType()
 
@@ -353,6 +350,9 @@ act = 0
 while True:
     print("=" * 150)
     print(f"\n현재 위치 : {loc}\n")
+
+    if locIdx==20:
+        break
 
     act = int(input('무엇을 할까?\n'
                     '1) 포켓몬과 배틀\n'
@@ -443,4 +443,112 @@ while True:
             break
             quit()
 
-    print()
+print("""
+    이 앞은 포켓몬리그다
+    마음의 준비를 하도록 하자
+""")
+finalWin = False
+while True:
+    act = int(input('무엇을 할까?\n'
+                    '1) 포켓몬리그에 도전한다\n'
+                    '2) 내 포켓몬의 정보\n'
+                    '0) 종료\n'
+                    '숫자를 입력하세요 : '
+                    ))
+    if act==1:
+        enter = input('포켓몬리그에 도전할까? (y/n) : ')
+        if enter == 'y':
+            print("="*150)
+            print(f"""
+    안녕 {Chr.name}! 
+    나는 도감을 채우면서 완벽한 포켓몬을 찾았어!
+    여러 가지 타입의 포켓몬에게 싸워 이길 수 있는 콤비네이션을 찾았지!
+    ... 그리고 지금! 나는 포켓몬 리그 정점에 있어!
+    {Chr.name}! 이게 무슨 의미인지 알겠나?
+    ... ... ... ... 알았어! 가르쳐주지!
+    바로 내가! 이 세상에서 가장! 강하다는 거야!
+        """)
+            print("="*150)
+            print(f"""
+    포켓몬리그 챔피언 '그린'이 승부를 걸어왔다!""")
+            pkmChampIdx = 0
+            while True:
+                pkmChamp = Pockemon(list(PockemonChampion)[pkmChampIdx])
+                pkmChamp.setInfo(PockemonChampion[pkmChamp.name])
+                print(f"""
+    포켓몬스터 챔피언 '그린'은 {pkmChamp.name}(Lv.{pkmChamp.level}) 을(를) 내보냈다!    
+    가랏 {myPkm.name}!
+    """)
+
+                while True:
+                    toDo = int(input('무엇을 할까?\n'
+                                     '1. 전투\n'
+                                     '2. 도망친다\n'
+                                     '숫자를 입력하세요 : '))
+                    if toDo==1:
+                        battleBegin()
+                        print('\n사용 가능한 기술')
+                        mySkills = myPkm.getSkills(myPkm.getType())
+                        enSkills = pkmChamp.getSkills(pkmChamp.getType())
+                        print(f"{'\n'.join([str(idx + 1) + ") " + i for idx, i in enumerate(mySkills)])}")
+
+                        while True:
+                            mySkill = random.choice(mySkills)
+                            print(f"""
+    {myPkm.name} 는(은) {mySkill}를 사용했다! """)
+                            damageDec(attack(myPkm.getType(), pkmChamp.getType()))
+                            pkmChamp.hpCon(damageCal(myPkm.getLevel(), damage[mySkill], attack(myPkm.getType(), pkmChamp.getType())))
+                            if (isOver):
+                                if(pkmChamp==2):
+                                    finalWin = True
+                                else:
+                                    pkmChampIdx +=1
+                                isWin = 1
+                                break
+
+                            enSkill = random.choice(enSkills)
+                            print(f"""
+        적 {pkmChamp.name} 는(은) {enSkill}를 사용했다! """)
+                            damageDec(attack(pkmChamp.getType(), myPkm.getType()))
+                            myPkm.hpCon(damageCal(pkmChamp.getLevel(), damage[enSkill],
+                                                  attack(pkmChamp.getType(), myPkm.getType())))
+                            if (isOver):
+                                break
+                        if isWin == 1:
+                            myPkm.lvUp()
+                            break
+                        else:
+                            locIdx -= 1
+                            print(f"""
+    포켓몬리그 챔피언 '그린'과의 승부에서 패배했다!
+    
+    {Chr.name}은 눈 앞이 깜깜해졌다...
+    서둘러 포켓몬센터로 돌아가자...""")
+                            break
+                        myPkm.restore(PockemonStarting[myPkm.name])
+                    # if isWin==1:
+                    #     break
+                    else:  # toDo_반복문
+                        print("""
+    여기까지 와서 포기할 수는 없다
+    """)
+                if isWin==0:
+                    break
+                if finalWin==1:
+                    print("승리했다!")
+                    break
+
+        else: # 포켓몬리그에 도전할까?
+            print("""
+    여기까지 와서 포기할 수는 없다
+                """)
+
+    elif act==2:
+        myPkm.getInfo()
+
+    if finalWin==True:
+        break
+
+# 뮤츠
+
+#레드
