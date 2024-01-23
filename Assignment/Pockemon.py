@@ -7,14 +7,13 @@ class Pockemon:
 
     def hpCon(self, damage):
         self.hp -= damage
+        print(f"""
+    {self.name} 는(은) {damage}의 피해를 입었다!""")
         if (self.hp <= 0):
             global isOver
             isOver = True
             print(f"""
-    {self.name} 은/는 쓰려졌다!""")
-        else:
-            print(f"""
-    {self.name} 은/는 {damage}의 피해를 입었다!""")
+    {self.name} 는(은) 쓰려졌다!""")
     # def setLv(self, pkmList):
     #     self.level = pkmList[self.name][0]
     def setInfo(self, pkmList):
@@ -84,8 +83,11 @@ class MyMon(Pockemon):
     #     if (self.name)
     #     elif
     #     print(f"{Character.name}은(는) {name}으로 진화했다!")
-    def store(self):
-        print(f"{self.name}은 완전히 회복되었다!")
+    def restore(self, pkmList):
+        self.hp = 10 + 490 * (pkmList[0] - 1) / 99
+        print(f"""
+    {self.name} 는(은) 완전히 회복되었다!""")
+
     def rivalMon(self):
         if self.name == '이상해씨':
             rivalPkm = '리자몽'
@@ -107,7 +109,7 @@ class WildMon(Pockemon):
     def __init__(self, name, lev):
         super().__init__(name, lev)
     def begin_(self):
-        print(f"야생의 {self.name}이/가 나타났다!")
+        print(f"야생의 {self.name} 이/가 나타났다!")
 
 # class Skills:
 #     def __init__(self):
@@ -126,16 +128,18 @@ class Character:
         else:
             print("""\n   무사히 도망쳤다...!""")
     def watchDict(self):
-        print(f'{Character.name}은 도감을 본다.')
+        print(f'{Character.name} 는(은) 도감을 본다.')
     def dead(self):
         print(f"""
-{self.name}은 눈 앞이 깜깜해졌다...
+{self.name} 는(은) 눈 앞이 깜깜해졌다...
 """)
         quit()
 
 # Functions
 def battleBegin():
-    isOver = False
+    global isWin
+    isWin = 0
+
 
 def PkmChoice(locIdx):
     if locIdx == 1:
@@ -330,15 +334,16 @@ print(f"""
     세계를 여행하고 성장하며 포켓몬 마스터가 되기위해 노력하렴.
     내가 지켜보고 있으마. 또 보자꾸나!
     """)
-print("="*150)
 locIdx = 0
 loc = locations[locIdx]
 isOver = False
+isWin = False
 #PockemonChampion['역상성'][1] = Type(myPkm.rivalMon())
 PockemonChampion[MyMon.rivalMon(myPkm)] = PockemonChampion.pop('역상성')
 
 act = 0
 while True:
+    print("=" * 150)
     print(f"\n현재 위치 : {loc}\n")
 
     act = int(input('무엇을 할까?\n'
@@ -367,6 +372,7 @@ while True:
                          '숫자를 입력하세요 : '))
 
         if toDo==1:
+            battleBegin()
             print('\n사용 가능한 기술')
             mySkills = myPkm.getSkills(myPkm.getType())
             enSkills = nowWild.getSkills(nowWild.getType())
@@ -375,20 +381,31 @@ while True:
             while True:
                 mySkill = random.choice(mySkills)
                 print(f"""
-    {myPkm.name} 는/은 {mySkill}를 사용했다! """)
-                nowWild.hpCon(damageCal(myPkm.getLevel(), damage[mySkill], attack(myPkm.getType(), nowWild.getType())))
+    {myPkm.name} 는(은) {mySkill}를 사용했다! """)
                 damageDec(attack(myPkm.getType(), nowWild.getType()))
+                nowWild.hpCon(damageCal(myPkm.getLevel(), damage[mySkill], attack(myPkm.getType(), nowWild.getType())))
                 if (isOver):
+                    isWin = 1
                     break
 
                 enSkill = random.choice(enSkills)
                 print(f"""
-        적 {nowWild.name} 는/은 {enSkill}를 사용했다! """)
-                myPkm.hpCon(damageCal(nowWild.getLevel(), damage[enSkill], attack(nowWild.getType(), myPkm.getType())))
+        적 {nowWild.name} 는(은) {enSkill}를 사용했다! """)
                 damageDec(attack(nowWild.getType(), myPkm.getType()))
+                myPkm.hpCon(damageCal(nowWild.getLevel(), damage[enSkill], attack(nowWild.getType(), myPkm.getType())))
                 if (isOver):
                     break
+            if isWin == 1:
+                myPkm.lvUp()
+                locIdx += 1
+                print("레벨업!")
+            else:
+                locIdx -= 1
+                print(f"""
+    {Chr.name}은 눈 앞이 깜깜해졌다...
+    서둘러 포켓몬센터로 돌아가자...""")
 
+            myPkm.restore(PockemonStarting[myPkm.name])
 
         else:
             Chr.run(myPkm.getLevel(), nowWild.getLevel())
