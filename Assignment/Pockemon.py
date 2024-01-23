@@ -592,5 +592,5 @@ print("="*150)
 
 #레드
 print("="*150)
-print(" "*67 + "- THE END -" + " "*72)
+print(" "*64 + "- THE END -")
 print("="*150)
