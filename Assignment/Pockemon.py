@@ -8,6 +8,8 @@ class Pockemon:
     def hpCon(self, damage):
         self.hp -= damage
         if (self.hp <= 0):
+            global isOver
+            isOver = True
             print(f"""
     {self.name} 은/는 쓰려졌다!""")
         else:
@@ -126,11 +128,14 @@ class Character:
     def watchDict(self):
         print(f'{Character.name}은 도감을 본다.')
     def dead(self):
+        print(f"""
+{self.name}은 눈 앞이 깜깜해졌다...
+""")
         quit()
 
 # Functions
-def isWin():
-    pass
+def battleBegin():
+    isOver = False
 
 def PkmChoice(locIdx):
     if locIdx == 1:
@@ -184,6 +189,17 @@ def damageCal(lv, sk_mul, eff):
     dam = 5 + 145*sk_mul/5 * 1.7
     final_damage = dam * eff * lv/100
     return int(final_damage)
+
+def damageDec(eff):
+    if eff==2:
+        print("""
+    효과가 굉장했다!""")
+    elif eff==0.5:
+        print("""
+    효과가 별로인듯 하다""")
+    elif eff==0:
+        print("""
+    효과가 없는 것 같다...""")
 
 PockemonType = ['노말', '불', '물', '풀', '전기', '얼음', '격투', '독', '땅', '비행', '에스퍼', '벌레', '바위',
                 '고스트', '드래곤', '악', '강철']
@@ -317,6 +333,7 @@ print(f"""
 print("="*150)
 locIdx = 0
 loc = locations[locIdx]
+isOver = False
 #PockemonChampion['역상성'][1] = Type(myPkm.rivalMon())
 PockemonChampion[MyMon.rivalMon(myPkm)] = PockemonChampion.pop('역상성')
 
@@ -352,12 +369,25 @@ while True:
         if toDo==1:
             print('\n사용 가능한 기술')
             mySkills = myPkm.getSkills(myPkm.getType())
+            enSkills = nowWild.getSkills(nowWild.getType())
             print(f"{'\n'.join([str(idx+1)+ ") " + i for idx, i in enumerate(mySkills)])}")
-            nowSkill = random.choice(mySkills)
-            print(f"""
-    {myPkm.name} 는/은 {nowSkill}를 사용했다! """)
-            nowWild.hpCon(damageCal(myPkm.getLevel(), damage[nowSkill], attack(myPkm.getType(), nowWild.getType())))
-            print('')
+
+            while True:
+                mySkill = random.choice(mySkills)
+                print(f"""
+    {myPkm.name} 는/은 {mySkill}를 사용했다! """)
+                nowWild.hpCon(damageCal(myPkm.getLevel(), damage[mySkill], attack(myPkm.getType(), nowWild.getType())))
+                damageDec(attack(myPkm.getType(), nowWild.getType()))
+                if (isOver):
+                    break
+
+                enSkill = random.choice(enSkills)
+                print(f"""
+        적 {nowWild.name} 는/은 {enSkill}를 사용했다! """)
+                myPkm.hpCon(damageCal(nowWild.getLevel(), damage[enSkill], attack(nowWild.getType(), myPkm.getType())))
+                damageDec(attack(nowWild.getType(), myPkm.getType()))
+                if (isOver):
+                    break
 
 
         else:
