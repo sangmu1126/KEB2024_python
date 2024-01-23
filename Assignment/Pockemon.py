@@ -51,6 +51,10 @@ class Pockemon:
             self.level += 5
         else:
             self.level += 10
+
+        if self.level > 100:
+            self.level = 100
+
         print(f"""
     {myPkm.name} 는(은) Lv.{self.level} 이(가) 되었다!""")
 
@@ -92,7 +96,29 @@ class MyMon(Pockemon):
     {befName} 는(은) {self.name} (으)로 진화했다!""")
         else:
             pass
-
+    def setNewskill(self):
+        newSkill = [['지진' ,5,'땅'],['번개',5,'전기'],['프리즈드라이',5,'얼음']]
+        if self.name=='이상해꽃':
+            self.skill =[]
+            self.skill = self.getSkills(self.type)
+            self.skill[0] = newSkill[0]
+        elif self.name=='리자몽':
+            self.skill = []
+            self.skill = self.getSkills(self.type)
+            self.skill[0] = newSkill[1]
+        elif self.name=='거북왕':
+            self.skill = []
+            self.skill = self.getSkills(self.type)
+            self.skill[0] = newSkill[2]
+        
+    def setNewskill2(self):
+        newSkill = [['스톤엣지', 4, '바위'], ['폭풍', 4, '비행'], ['대지의힘', 4, '땅']]
+        if self.name=='이상해꽃':
+            pass
+        elif self.name=='리자몽':
+            pass
+        elif self.name=='거북왕':
+            pass
     def restore(self, pkmList):
         self.hp = 10 + 490 * (pkmList[0] - 1) / 99
         print(f"""
@@ -113,14 +139,14 @@ class MyMon(Pockemon):
             self.lvUp()
             return True
 
-class EnemyMon(Pockemon):
-    def __init__(self, name):
-        super().__init__(name)
-class WildMon(Pockemon):
-    def __init__(self, name, lev):
-        super().__init__(name, lev)
-    def begin_(self):
-        print(f"야생의 {self.name} 이/가 나타났다!")
+# class EnemyMon(Pockemon):
+#     def __init__(self, name):
+#         super().__init__(name)
+# class WildMon(Pockemon):
+#     def __init__(self, name, lev):
+#         super().__init__(name, lev)
+#     def begin_(self):
+#         print(f"야생의 {self.name} 이/가 나타났다!")
 
 # class Skills:
 #     def __init__(self):
@@ -346,6 +372,7 @@ isOver = False
 isWin = False
 #PockemonChampion['역상성'][1] = Type(myPkm.rivalMon())
 PockemonChampion[MyMon.rivalMon(myPkm)] = PockemonChampion.pop('역상성')
+# 역타입 추가
 
 act = 0
 while True:
@@ -548,7 +575,16 @@ while True:
 
     if finalWin==True:
         break
-print("포켓몬 챔피언")
+print("="*150)
+print(f"""
+    포켓몬리그 챔피언 {Chr.name}
+    """)
+print("="*150)
 # 뮤츠
 
 #레드
+print("="*150)
+print("""
+    - THE END -
+    """)
+print("="*150)
