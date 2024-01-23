@@ -97,7 +97,7 @@ class MyMon(Pockemon):
         else:
             pass
     def setNewskill(self):
-        newSkill = [['지진' ,5,'땅'],['번개',5,'전기'],['프리즈드라이',5,'얼음']]
+        newSkill = [['지진',5,'땅'],['번개',5,'전기'],['프리즈드라이',5,'얼음']]
         if self.name=='이상해꽃':
             self.skill =[]
             self.skill = self.getSkills(self.type)
@@ -122,7 +122,8 @@ class MyMon(Pockemon):
     def restore(self, pkmList):
         self.hp = 10 + 490 * (pkmList[0] - 1) / 99
         print(f"""
-    {self.name} 는(은) 완전히 회복되었다!""")
+    {self.name} 는(은) 완전히 회복되었다!
+    """)
 
     def rivalMon(self):
         if self.name == '이상해씨':
@@ -133,7 +134,8 @@ class MyMon(Pockemon):
             rivalPkm = '이상해꽃'
         else:
             rivalPkm = '이브이'
-        return rivalPkm
+        rival = Pockemon(rivalPkm)
+        return rival
     def win(self, isWin):
         if isWin==1:
             self.lvUp()
@@ -371,7 +373,11 @@ loc = locations[locIdx]
 isOver = False
 isWin = False
 #PockemonChampion['역상성'][1] = Type(myPkm.rivalMon())
-PockemonChampion[MyMon.rivalMon(myPkm)] = PockemonChampion.pop('역상성')
+rival = MyMon.rivalMon(myPkm)
+rival.setInfo(PockemonStarting[rival.name])
+PockemonChampion[rival.name] = PockemonChampion.pop('역상성')
+PockemonChampion[rival.name][1] = rival.getType()
+print(rival.getType())
 # 역타입 추가
 
 act = 0
@@ -460,7 +466,8 @@ while True:
                 pass
         else:
             print(f"""
-    아직 {myPkm.name}의 레벨이 너무 낮아서 갈 수 없단다!""")
+    아직 {myPkm.name}의 레벨이 너무 낮아서 갈 수 없단다!
+    """)
     elif act==3:
         myPkm.getInfo()
     elif act==4:
@@ -504,7 +511,7 @@ while True:
                 pkmChamp = Pockemon(list(PockemonChampion)[pkmChampIdx])
                 pkmChamp.setInfo(PockemonChampion[pkmChamp.name])
                 print(f"""
-    포켓몬스터 챔피언 '그린'은 {pkmChamp.name}(Lv.{pkmChamp.level}) 을(를) 내보냈다!    
+    포켓몬리그 챔피언 '그린'은 {pkmChamp.name}(Lv.{pkmChamp.level}) 을(를) 내보냈다!     (HP : {int(pkmChamp.hp)})    
     가랏 {myPkm.name}!
     """)
 
@@ -527,7 +534,7 @@ while True:
                             damageDec(attack(myPkm.getType(), pkmChamp.getType()))
                             pkmChamp.hpCon(damageCal(myPkm.getLevel(), damage[mySkill], attack(myPkm.getType(), pkmChamp.getType())))
                             if (isOver):
-                                if(pkmChamp==2):
+                                if(pkmChampIdx==5):
                                     finalWin = True
                                 else:
                                     pkmChampIdx +=1
@@ -562,7 +569,8 @@ while True:
                 if isWin==0:
                     break
                 if finalWin==True:
-                    print("승리했다!")
+                    print("""
+    포켓몬리그 챔피언 '그린'과의 승부에서 승리했다!""")
                     break
 
         else: # 포켓몬리그에 도전할까?
@@ -577,14 +585,12 @@ while True:
         break
 print("="*150)
 print(f"""
-    포켓몬리그 챔피언 {Chr.name}
+    포켓몬리그 챔피언 '{Chr.name}'
     """)
 print("="*150)
 # 뮤츠
 
 #레드
 print("="*150)
-print("""
-    - THE END -
-    """)
+print(" "*67 + "- THE END -" + " "*72)
 print("="*150)
