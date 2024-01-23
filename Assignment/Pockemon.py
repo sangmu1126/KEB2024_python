@@ -11,9 +11,10 @@ class Pockemon:
     {self.name} 는(은) {damage}의 피해를 입었다!""")
         if (self.hp <= 0):
             global isOver
-            isOver = True
             print(f"""
-    {self.name} 는(은) 쓰려졌다!""")
+    {self.name} 는(은) 쓰러졌다!""")
+            isOver = True
+
     # def setLv(self, pkmList):
     #     self.level = pkmList[self.name][0]
     def setInfo(self, pkmList):
@@ -42,12 +43,12 @@ class Pockemon:
 
     def lvUp(self):
         global locIdx
-        if locIdx!=1:
-            self.level += 10
-        else:
+        if (locIdx==1 or locIdx==3):
             self.level += 5
+        else:
+            self.level += 10
         print(f"""
-    {myPkm.name} 는(은) Lv.{self.level}이 되었다!""")
+    {myPkm.name} 는(은) Lv.{self.level} 이(가) 되었다!""")
 
 class MyMon(Pockemon):
     def __init__(self, name):
@@ -61,10 +62,33 @@ class MyMon(Pockemon):
             return 2
         else:
             return 3
-    # def evolve(self):
-    #     if (self.name)
-    #     elif
-    #     print(f"{Character.name}은(는) {name}으로 진화했다!")
+    def evolve(self, lv):
+        if (lv==25 or lv==55):
+            if lv == 25:
+                if self.name == '이상해씨':
+                    befName = self.name
+                    self.name = '이상해풀'
+                elif self.name == '파이리':
+                    befName = self.name
+                    self.name = '리자드'
+                elif self.name == '꼬부기':
+                    befName = self.name
+                    self.name = '어니부기'
+            elif lv == 55:
+                if self.name == '이상해풀':
+                    befName = self.name
+                    self.name = '이상해꽃'
+                elif self.name == '리자드':
+                    befName = self.name
+                    self.name = '리자몽'
+                elif self.name == '어니부기':
+                    befName = self.name
+                    self.name = '거북왕'
+            print(f"""
+    {befName} 는(은) {self.name} (으)로 진화했다!""")
+        else:
+            pass
+
     def restore(self, pkmList):
         self.hp = 10 + 490 * (pkmList[0] - 1) / 99
         print(f"""
@@ -119,9 +143,10 @@ class Character:
 
 # Functions
 def battleBegin():
+    global isOver
     global isWin
+    isOver = 0
     isWin = 0
-
 
 def PkmChoice(locIdx):
     if locIdx == 1:
@@ -190,9 +215,11 @@ def damageDec(eff):
 PockemonType = ['노말', '불', '물', '풀', '전기', '얼음', '격투', '독', '땅', '비행', '에스퍼', '벌레', '바위',
                 '고스트', '드래곤', '악', '강철']
 PkmSrtList = ['이상해씨', '파이리', '꼬부기', '피카츄']
-PockemonStarting = {'이상해씨':[5,'풀'], '파이리':[5,'풀'], '꼬부기':[5,'풀'], '피카츄':[5,'전기']}
-PockemonEv1 = {'이상해풀':[25,'풀'], '리자드':[25,'풀'], '어니부기':[25,'풀']}
-PockemonEv2 = ['이상해꽃', '리자몽', '거북왕']
+PockemonStarting = {'이상해씨':[5,'풀'], '파이리':[5,'풀'], '꼬부기':[5,'풀'], '피카츄':[5,'전기'],
+                    '이상해풀': [25, '풀'], '리자드': [25, '풀'], '어니부기': [25, '풀'],
+                     '이상해꽃': [55, '풀'], '리자몽': [55, '불'], '거북왕': [55, '물']}
+# PockemonEv = {'이상해풀':[25,'풀'], '리자드':[25,'풀'], '어니부기':[25,'풀'],
+#               '이상해꽃':[55,'풀'], '리자몽':[55,'불'], '거북왕':[55,'물']}
 PockemonLev1 = {'캐터피' : [2, '벌레'], '구구':[3,'비행'], '뿔충이':[6,'벌레'] , '꼬렛':[8, '노말']}
 PockemonLev2 = {'니드런' : [8,'독'] , '모래두지': [11, '땅'] , '아보':[13,'독'], '깨비참' : [9,'비행']}
 PockemonLev3 = {'파라스' : [13,'물'], '골뱃' : [17,'비행'], '고라파덕' : [14,'물'], '우츠동' : [18,'풀']}
@@ -206,7 +233,7 @@ PockemonLev10 = {'라프라스': [84,'얼음'], '갸라도스' : [88,'물'], '�
 PockemonFinal = {'뮤츠': [100,'에스퍼']}
 PockemonChampion = {'역상성' : [92,'역타입'], '나시' : [81,'풀'], '갸랴도스' : [84,'비행'], '후딘' : [85,'에스퍼'], '마기라스' : [88,'악'], '윈디' : [90,'불'] }
 PockemonRed = {'피카츄' : [100,'전기'], '잠만보' : [96,'노말'], '라프라스': [94,'얼음'], '이상해꽃' : [97,'풀'], '거북왕': [98,'물'], '리자몽' : [99,'불']}
-PockemonList = [PockemonStarting, PockemonEv1,
+PockemonList = [PockemonStarting,
                 PockemonLev1,
                 PockemonLev2,
                 PockemonLev3,
@@ -240,11 +267,11 @@ rock_skill = ['암석봉인', '스톤샤워', '원시의힘', '스톤엣지', '�
 ghost_skill = ['야습', '괴상한바람', '섀도크루', '섀도볼', '고스트다이브']
 dragon_skill = ['더블촙', '용의파동', '드래곤다이브', '역린', '용성군']
 evil_skill = ['따라가때리기', '보복', '탁쳐서떨구기', '악의파동', '속임수']
-stell_skill = ['불릿펀치', '메탈크로우', '아이언헤드', '러스터캐논', '코멧펀치']
+steel_skill = ['불릿펀치', '메탈크로우', '아이언헤드', '러스터캐논', '코멧펀치']
 mewtwo_skill = ['미래예지', '파동탄', 'HP회복', '사이코커터', '사이코브레이크']
 
 skills = [normal_skill, fire_skill, water_skill, glass_skill,electric_skill,ice_skill,fighting_skill,poison_skill,
-flying_skill,psychic_skill,ground_skill,bug_skill,rock_skill,ghost_skill,dragon_skill,evil_skill,stell_skill]
+ground_skill,flying_skill,psychic_skill,bug_skill,rock_skill,ghost_skill,dragon_skill,evil_skill,steel_skill]
 
 damage = dict()
 for sk in skills:
@@ -275,8 +302,6 @@ def findPkm(num):
 #     for pkm in pkmDict:
 #         Type(pkm, pkmDict[pkm][1])
 #     #Type(pkm.keys(), list(pkm.values())[1])
-
-
 
 # PkmType()
 
@@ -345,7 +370,7 @@ while True:
         nowWild = Pockemon(random.choice([i for i in PkmChoice(locIdx)]))
         nowWild.setInfo(PkmChoice(locIdx)[nowWild.name])
         print(f"""
-    야생의 {nowWild.name}(Lv.{nowWild.getLevel()}) 이/가 나타났다!
+    야생의 {nowWild.name}(Lv.{nowWild.getLevel()}) 이(가) 나타났다! (HP : {int(nowWild.hp)})
     가라 {myPkm.name}!
         """)
         toDo = int(input('무엇을 할까?\n'
@@ -379,16 +404,16 @@ while True:
                     break
             if isWin == 1:
                 myPkm.lvUp()
-                locIdx += 1
+                myPkm.evolve(myPkm.getLevel())
+                loc = Chr.move(locations)
             else:
                 locIdx -= 1
                 print(f"""
     {Chr.name}은 눈 앞이 깜깜해졌다...
     서둘러 포켓몬센터로 돌아가자...""")
-
             myPkm.restore(PockemonStarting[myPkm.name])
-
         else:
+            locIdx -= 1
             Chr.run(myPkm.getLevel(), nowWild.getLevel())
     elif act==2:
         if myPkm.getLevel() > 10:
