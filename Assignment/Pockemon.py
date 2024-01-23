@@ -41,31 +41,13 @@ class Pockemon:
         print(f'기술 : {self.skill}')
 
     def lvUp(self):
-        self.level += 1
-
-# class Level(Pockemon):
-#     def __init__(self, name, lev):
-#         super().__init__(name)
-#         self.level = lev
-#     def setLevel(self, num, name):
-#         self.level = PockemonList[self.name]
-#     def getLevel(self, Level):
-#         print()
-#     def levelUp(self):
-#         self.level += 1
-
-# class Type(Pockemon):
-#     def __init__(self, name, type):
-#         super().__init__(name)
-#         self.type = type
-#     def getType(self):
-#         return self.type
-
-# class Skill(Type, Pockemon):
-#     def __init__(self, type, skills):
-#         super().__init__(self, type)
-#         self.skills = skills
-
+        global locIdx
+        if locIdx!=1:
+            self.level += 10
+        else:
+            self.level += 5
+        print(f"""
+    {myPkm.name} 는(은) Lv.{self.level}이 되었다!""")
 
 class MyMon(Pockemon):
     def __init__(self, name):
@@ -398,7 +380,6 @@ while True:
             if isWin == 1:
                 myPkm.lvUp()
                 locIdx += 1
-                print("레벨업!")
             else:
                 locIdx -= 1
                 print(f"""
