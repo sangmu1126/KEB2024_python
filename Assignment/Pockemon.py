@@ -5,23 +5,25 @@ class Pockemon:
     def __init__(self, name):
         self.name = name
 
-    def hp(self, damage):
+    def hpCon(self, damage):
         self.hp -= damage
         if (self.hp <= 0):
-            pass
+            print(f"""
+    {self.name} 은/는 쓰려졌다!""")
+        else:
+            print(f"""
+    {self.name} 은/는 {damage}의 피해를 입었다!""")
     # def setLv(self, pkmList):
     #     self.level = pkmList[self.name][0]
-    def setlevel(self, pkmList):
+    def setInfo(self, pkmList):
         self.level = pkmList[0]
+        self.type = pkmList[1]
         self.hp = 10 + 490 * (self.level-1)/99
     def getLevel(self):
         return self.level
 
-    def getType(self, pkmList):
-        # for pkmDict in pkmlist:
-        #     for pkm in pkmDict:
-        #         return pkmDict[pkm][1])
-        return pkmList[1]
+    def getType(self):
+        return self.type
 
     def attack(self,attType,defType):
         pass
@@ -31,7 +33,7 @@ class Pockemon:
         return skill_type[type]
 
     #def attack(self):
-    def info(self):
+    def getInfo(self):
         print(f'이름 : {self.name}')
         print(f'레벨 : {self.level}')
         print(f'타입 : {self.type}')
@@ -130,7 +132,7 @@ class Character:
 def isWin():
     pass
 
-def PkmCoice(locIdx):
+def PkmChoice(locIdx):
     if locIdx == 1:
         return PockemonLev1
     elif locIdx == 3:
@@ -176,8 +178,12 @@ def attack(atkType, defType):
     }
 
     eff = effectiveness[atkType][defType]
-
     return eff
+
+def damageCal(lv, sk_mul, eff):
+    dam = 5 + 145*sk_mul/5 * 1.7
+    final_damage = dam * eff * lv/100
+    return int(final_damage)
 
 PockemonType = ['노말', '불', '물', '풀', '전기', '얼음', '격투', '독', '땅', '비행', '에스퍼', '벌레', '바위',
                 '고스트', '드래곤', '악', '강철']
@@ -295,7 +301,7 @@ startPkm = input('너와 함께할 포켓몬을 고르렴!\n'
 if (checkPkmName(startPkm)):
     Pkm = Pockemon(checkPkmName(startPkm))
     myPkm = MyMon(Pkm.name)
-    myPkm.setlevel(PockemonStarting[myPkm.name])
+    myPkm.setInfo(PockemonStarting[myPkm.name])
 else:
     print("""
         그 포켓몬은 고를 수 없어...
@@ -332,8 +338,8 @@ while True:
         print('')
         print("="*150)
         print(f"\n현재 위치 : {loc}")
-        nowWild = Pockemon(random.choice([i for i in PkmCoice(locIdx)]))
-        nowWild.setlevel(PkmCoice(locIdx)[nowWild.name])
+        nowWild = Pockemon(random.choice([i for i in PkmChoice(locIdx)]))
+        nowWild.setInfo(PkmChoice(locIdx)[nowWild.name])
         print(f"""
     야생의 {nowWild.name}(Lv.{nowWild.getLevel()}) 이/가 나타났다!
     가라 {myPkm.name}!
@@ -345,10 +351,15 @@ while True:
 
         if toDo==1:
             print('\n사용 가능한 기술')
-            mySkills = myPkm.getSkills(myPkm.getType(PockemonStarting[myPkm.name]))
+            mySkills = myPkm.getSkills(myPkm.getType())
             print(f"{'\n'.join([str(idx+1)+ ") " + i for idx, i in enumerate(mySkills)])}")
+            nowSkill = random.choice(mySkills)
             print(f"""
-    {myPkm.name} 는/은 {random.choice(mySkills)}를 사용했다! """)
+    {myPkm.name} 는/은 {nowSkill}를 사용했다! """)
+            nowWild.hpCon(damageCal(myPkm.getLevel(), damage[nowSkill], attack(myPkm.getType(), nowWild.getType())))
+            print('')
+
+
         else:
             Chr.run(myPkm.getLevel(), nowWild.getLevel())
     elif act==2:
