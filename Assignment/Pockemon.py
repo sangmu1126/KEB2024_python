@@ -1,3 +1,4 @@
+import copy
 import random
 
 # Classes
@@ -18,10 +19,11 @@ class Pockemon:
     # def setLv(self, pkmList):
     #     self.level = pkmList[self.name][0]
     def setInfo(self, pkmList):
+        global skill_type
         self.level = pkmList[0]
         self.type = pkmList[1]
         self.hp = 10 + 490 * (self.level-1)/99
-        self.skill = self.getSkills(self.type)
+        self.skill = copy.deepcopy(skill_type[self.type])
 
     def getLevel(self):
         return self.level
@@ -33,8 +35,9 @@ class Pockemon:
         pass
     # def setSkill(self, skillList):
     #     self.skills = skillList
-    def getSkills(self, type):
-        return skill_type[type]
+    # def getSkills(self, type):
+    #     global skill_type
+    #     return skill_type[type]
 
     #def attack(self):
     def getInfo(self):
@@ -58,7 +61,7 @@ class Pockemon:
             self.level = 100
 
         print(f"""
-    {myPkm.name} 는(은) Lv.{self.level} 이(가) 되었다!""")
+    {self.name} 는(은) Lv.{self.level} 이(가) 되었다!""")
 
 class MyMon(Pockemon):
     def __init__(self, name):
@@ -99,32 +102,40 @@ class MyMon(Pockemon):
         else:
             pass
 
-    def setNewskill(self,skill_type):
+    def setNewskill(self):
+        del self.skill[0]
         newSkill = ['지진','번개','프리즈드라이']
+        newSkill2 = ['스톤엣지', '솔라빔', '대지의힘']
         print(f"""
-    {self.name}은 새로운 기술을 배웠다!
+    {self.name}은 새로운 기술 2개를 배웠다!
     """)
         if self.name=='이상해꽃':
             self.skill.append(newSkill[0])
-        elif self.name=='리자몽':
-            self.skill.append(newSkill[1])
-        elif self.name=='거북왕':
-            self.skill.append(newSkill[2])
-        
-    def setNewskill2(self,skill_type):
-        newSkill = ['스톤엣지','솔라빔','대지의힘']
-        newSkill2 = ['오물웨이브','브레이브버드','냉동빔']
-        print(f"""
-    {self.name}은 새로운 기술 2개를 배웠다!""")
-        if self.name=='이상해꽃':
-            self.skill.append(newSkill[0])
             self.skill.append(newSkill2[0])
+            # deepcopy issues
+            # tmp = self.skill
+            # tmp.append(newSkill[0])
+            # self.skill = tmp
         elif self.name=='리자몽':
             self.skill.append(newSkill[1])
             self.skill.append(newSkill2[1])
         elif self.name=='거북왕':
             self.skill.append(newSkill[2])
             self.skill.append(newSkill2[2])
+        
+    def setNewskill2(self):
+        newSkill = ['오물웨이브','브레이브버드','냉동빔']
+        print(f"""
+    {self.name}은 새로운 기술을 배웠다!""")
+        if self.name=='이상해꽃':
+            self.skill.append(newSkill[0])
+            # tmp = self.skill
+            # tmp.append(newSkill[0])
+            # self.skill = tmp
+        elif self.name=='리자몽':
+            self.skill.append(newSkill[1])
+        elif self.name=='거북왕':
+            self.skill.append(newSkill[2])
 
     def restore(self):
         self.hp = 10 + 490 * (self.level - 1) / 99
@@ -185,7 +196,7 @@ class Character:
         else:
             print("""\n   무사히 도망쳤다...!""")
     def watchDict(self):
-        print(f'{Character.name} 는(은) 도감을 본다.')
+        print(f'{self.name} 는(은) 도감을 본다.')
     def dead(self):
         print(f"""
 {self.name} 는(은) 눈 앞이 깜깜해졌다...
@@ -333,7 +344,7 @@ for sk in skills:
         damage[skill] = i+1
 
 skill_type = dict(zip(PockemonType, skills))
-# print(skill_type)
+print(skill_type)
 # print(damage)
 
 locations = ['태초마을', '1번도로', '상록시티', '8번도로', '회색시티', '20번 수로', '블루시티', '17번도로', '갈색시티', '9번동굴',
@@ -439,8 +450,8 @@ while True:
         if toDo==1:
             battleBegin()
             print('\n사용 가능한 기술')
-            mySkills = myPkm.getSkills(myPkm.getType())
-            enSkills = nowWild.getSkills(nowWild.getType())
+            mySkills = myPkm.skill
+            enSkills = nowWild.skill
             print(f"{'\n'.join([str(idx+1)+ ") " + i for idx, i in enumerate(mySkills)])}")
 
             while True:
@@ -504,7 +515,8 @@ while True:
 print("""
     이 앞은 포켓몬리그다
     마음의 준비를 하도록 하자""")
-myPkm.setNewskill(skill_type)
+myPkm.setNewskill()
+print(skill_type)
 finalWin = False
 while True:
     act = int(input('무엇을 할까?\n'
@@ -547,17 +559,17 @@ while True:
                         battleBegin()
                         print('\n사용 가능한 기술')
                         mySkills = myPkm.skill
-                        enSkills = pkmChamp.getSkills(pkmChamp.getType())
+                        enSkills = pkmChamp.skill
                         print(f"{'\n'.join([str(idx + 1) + ") " + i for idx, i in enumerate(mySkills)])}")
 
                         while True:
                             mySkill = random.choice(mySkills)
                             print(f"""
-    {myPkm.name} 는(은) {mySkill}를 사용했다! """)
+    {myPkm.name} 는(은) {mySkill}({findType(mySkill, skill_type)})를 사용했다! """)
                             damageDec(attack(findType(mySkill, skill_type), pkmChamp.getType()))
                             pkmChamp.hpCon(damageCal(myPkm.getLevel(), damage[mySkill], attack(findType(mySkill, skill_type), pkmChamp.getType())))
                             if (isOver):
-                                if(pkmChampIdx==4):
+                                if(pkmChampIdx==5):
                                     finalWin = True
                                 else:
                                     pkmChampIdx +=1
@@ -573,7 +585,8 @@ while True:
                             if (isOver):
                                 break
                         if isWin == 1:
-                            myPkm.lvUp()
+                            if (myPkm.level < 100):
+                                myPkm.lvUp()
                         else:
                             locIdx -= 1
                             print(f"""
@@ -614,7 +627,6 @@ while True:
     elif act==0:
         real = input('정말로 모험을 그만둘꺼니? (y/n) : ')
         if real=='y':
-            break
             quit()
 
     if finalWin==True:
@@ -642,7 +654,7 @@ print(f"""
     축하합니다!
     """)
 print("="*150)
-myPkm.setNewskill2(skill_type)
+myPkm.setNewskill2()
 myPkm.restore()
 print("="*150)
 
@@ -675,13 +687,13 @@ while True:
     
     
     ...!""")
+                mewtwo = Mewtwo()
+                mewtwo.setInfo(PockemonFinal[mewtwo.name])
+                mewtwo.setSkill()
                 print(f"""
-    어둠 속에서 뮤츠가 나타났다!
+    어둠 속에서 뮤츠가 나타났다!    (HP : {int(mewtwo.hp)})
     가랏 {myPkm.name}!\n""")
                 while True:
-                    mewtwo = Mewtwo()
-                    mewtwo.setInfo(PockemonFinal[mewtwo.name])
-                    mewtwo.setSkill()
                     toDo = int(input('무엇을 할까?\n'
                                      '1. 전투\n'
                                      '2. 도망친다\n'
@@ -706,13 +718,11 @@ while True:
                                 break
 
                             enSkill = random.choice(enSkills)
-                            if enSkill=='HP회복':
-                                print(f"""
+                            print(f"""
         적 {mewtwo.name} 는(은) {enSkill}를 사용했다! """)
+                            if enSkill=='HP회복':
                                 mewtwo.restore()
                             else:
-                                print(f"""
-        적 {mewtwo.name} 는(은) {enSkill}를 사용했다! """)
                                 damageDec(attack(mewtwo.skill[enSkill][1], myPkm.getType()))
                                 myPkm.hpCon(
                                     damageCal(mewtwo.getLevel(), mewtwo.skill[enSkill][0], attack(mewtwo.skill[enSkill][1], myPkm.getType())))
@@ -723,7 +733,7 @@ while True:
                             #loc = Chr.move(locations)
                         else:
                             print(f"""
-    {mewtwo.name}과의 전투에서 패배했다!
+    {mewtwo.name}와의 전투에서 패배했다!
     {Chr.name}은 눈 앞이 깜깜해졌다...
     잠시 휴식을 취하자...""")
                             myPkm.restore()
@@ -732,17 +742,20 @@ while True:
     도망칠 수 없다!\n""")
 
                     if isWin==1:
+                        print(f"""
+    뮤츠와의 전투에서 승리했다!\n""")
+                        break
+                    else:
                         break
 
-                    else:
-                        print("""
-    도망칠 수 없다!\n""")
+                if isWin==1:
+                    break
             else: #안으로 더 들어가보자
                 print("""
     다시 돌아갈 수는 없을 것 같다\n""")
         print("="*150)
         print(f"""
-    뮤츠와의 전투에서 승리했다!\n""")
+    마을로 돌아가자\n""")
         break
     else:
         print("""
