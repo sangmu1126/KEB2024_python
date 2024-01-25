@@ -1,5 +1,6 @@
-import copy
 import random
+import copy
+import time
 
 # Classes
 class Pockemon:
@@ -175,7 +176,7 @@ class Mewtwo(Pockemon):
         self.name = '뮤츠'
     def setSkill(self):
         mewtwo_skill = {'미래예지': [6, '에스퍼'], '파동탄': [3, '격투'], 'HP회복': [0, '노말'], '사이코커터': [4, '에스퍼'],
-                        '사이코브레이크': [8, '에스퍼']}
+                        '사이코브레이크': [10, '에스퍼']}
         self.skill = mewtwo_skill
     def restore(self):
         self.hp = 10 + 490 * (self.level - 1) / 99
@@ -333,7 +334,6 @@ ghost_skill = ['야습', '괴상한바람', '섀도크루', '섀도볼', '고스
 dragon_skill = ['더블촙', '용의파동', '드래곤다이브', '역린', '용성군']
 evil_skill = ['따라가때리기', '보복', '탁쳐서떨구기', '악의파동', '속임수']
 steel_skill = ['불릿펀치', '메탈크로우', '아이언헤드', '러스터캐논', '코멧펀치']
-mewtwo_skill = {'미래예지':[2, '에스퍼'], '파동탄':[3,'격투'], 'HP회복':[0,'노말'], '사이코커터':[4,'에스퍼'], '사이코브레이크':[7, '에스퍼']}
 
 skills = [normal_skill, fire_skill, water_skill, glass_skill,electric_skill,ice_skill,fighting_skill,poison_skill,
 ground_skill,flying_skill,psychic_skill,bug_skill,rock_skill,ghost_skill,dragon_skill,evil_skill,steel_skill]
@@ -344,7 +344,7 @@ for sk in skills:
         damage[skill] = i+1
 
 skill_type = dict(zip(PockemonType, skills))
-print(skill_type)
+#print(skill_type)
 # print(damage)
 
 locations = ['태초마을', '1번도로', '상록시티', '8번도로', '회색시티', '20번 수로', '블루시티', '17번도로', '갈색시티', '9번동굴',
@@ -516,7 +516,6 @@ print("""
     이 앞은 포켓몬리그다
     마음의 준비를 하도록 하자""")
 myPkm.setNewskill()
-print(skill_type)
 finalWin = False
 while True:
     act = int(input('무엇을 할까?\n'
@@ -565,7 +564,7 @@ while True:
                         while True:
                             mySkill = random.choice(mySkills)
                             print(f"""
-    {myPkm.name} 는(은) {mySkill}({findType(mySkill, skill_type)})를 사용했다! """)
+    {myPkm.name} 는(은) {mySkill}를 사용했다! """)
                             damageDec(attack(findType(mySkill, skill_type), pkmChamp.getType()))
                             pkmChamp.hpCon(damageCal(myPkm.getLevel(), damage[mySkill], attack(findType(mySkill, skill_type), pkmChamp.getType())))
                             if (isOver):
@@ -691,8 +690,9 @@ while True:
                 mewtwo.setInfo(PockemonFinal[mewtwo.name])
                 mewtwo.setSkill()
                 print(f"""
-    어둠 속에서 뮤츠가 나타났다!    (HP : {int(mewtwo.hp)})
-    가랏 {myPkm.name}!\n""")
+    어둠 속에서 {mewtwo.name}(Lv.{mewtwo.level})가 나타났다!    (HP : {int(mewtwo.hp)})
+    가라 {myPkm.name}!\n""")
+                battleBegin()
                 while True:
                     toDo = int(input('무엇을 할까?\n'
                                      '1. 전투\n'
@@ -700,7 +700,6 @@ while True:
                                      '숫자를 입력하세요 : '))
 
                     if toDo == 1:
-                        battleBegin()
                         print('\n사용 가능한 기술')
                         mySkills = myPkm.skill
                         enSkills = list(mewtwo.skill.keys())
@@ -737,6 +736,7 @@ while True:
     {Chr.name}은 눈 앞이 깜깜해졌다...
     잠시 휴식을 취하자...""")
                             myPkm.restore()
+                            mewtwo.hp = 10 + 490 * (mewtwo.level - 1) / 99
                     else:
                         print("""
     도망칠 수 없다!\n""")
@@ -744,8 +744,6 @@ while True:
                     if isWin==1:
                         print(f"""
     뮤츠와의 전투에서 승리했다!\n""")
-                        break
-                    else:
                         break
 
                 if isWin==1:
@@ -760,8 +758,146 @@ while True:
     else:
         print("""
     포켓몬리그 챔피언이 두려워할 필요는 없다""")
+# 레드
+print("="*150)
+print("현재 위치 : 태초마을")
+print(f"""
+    오 {Chr.name}! 
+    뮤츠를 쓰러뜨리다니 정말 대단하구나!
+    너라면 은빛산에 갈 자격이 될 것 같구나
+    내가 연락을 해두마
+    그곳은 매우 험난하니 조심하거라
+    """)
+print("="*150)
+loc = Chr.move(locations)
+print(f"\n현재 위치 : {loc}")
+print("""
+    포켓몬리그 챔피언에게만 들어갈 자격이 주어지는 설산이다
+    매우 강한 포켓몬들이 서식하고 있다
+    """)
+while True:
+    go = input('은빛산 정상으로 올라갈까? (y/n) : ')
+    if go=='y':
+        break
+    else:
+        print("""
+    ...
+    정상에서 누가 기다리는 듯한 느낌이 든다
+    """)
+loc = Chr.move(locations)
+print("="*150)
+print(f'\n현재 위치 : {loc}')
+print("""
+    앞에 누군가가 기다리고 있다...
+""")
 
-#레드
+finalWin = False
+while True:
+    act = input('무엇을 할까?\n'
+                    '1) ???에 도전한다\n'
+                    '숫자를 입력하세요 : '
+                    )
+    if act == '1':
+        enter = input('3년전, 혼자 로켓단을 해산시키고 포켓몬리그 챔피언이 된 트레이너다\n정말 모든 준비가 되었나? (y/n) : ')
+        if enter == 'y':
+            print("=" * 150)
+            time.sleep(5)
+            print(f"""
+    ... ... ...
+        """)
+            time.sleep(3)
+            print("=" * 150)
+            print(f"""
+    포켓몬 트레이너 레드가 승부를 걸어왔다!""")
+            pkmRedIdx = 0
+            while True:
+                pkmRed = Pockemon(list(PockemonRed)[pkmRedIdx])
+                pkmRed.setInfo(PockemonRed[pkmRed.name])
+                print(f"""
+    포켓몬 트레이너 레드는 {pkmRed.name}(Lv.{pkmRed.level}) 을(를) 내보냈다!     (HP : {int(pkmRed.hp)})    
+    가랏 {myPkm.name}!
+    """)
+
+                while True:
+                    toDo = int(input('무엇을 할까?\n'
+                                     '1. 전투\n'
+                                     '2. 도망친다\n'
+                                     '숫자를 입력하세요 : '))
+                    if toDo == 1:
+                        battleBegin()
+                        print('\n사용 가능한 기술')
+                        mySkills = myPkm.skill
+                        enSkills = pkmRed.skill
+                        print(f"{'\n'.join([str(idx + 1) + ") " + i for idx, i in enumerate(mySkills)])}")
+
+                        while True:
+                            mySkill = random.choice(mySkills)
+                            print(f"""
+    {myPkm.name} 는(은) {mySkill}를 사용했다! """)
+                            damageDec(attack(findType(mySkill, skill_type), pkmRed.getType()))
+                            pkmRed.hpCon(damageCal(myPkm.getLevel(), damage[mySkill],
+                                                     attack(findType(mySkill, skill_type), pkmRed.getType())))
+                            if (isOver):
+                                if (pkmRedIdx == 5):
+                                    finalWin = True
+                                else:
+                                    pkmRedIdx += 1
+                                isWin = 1
+                                break
+
+                            enSkill = random.choice(enSkills)
+                            print(f"""
+        적 {pkmRed.name} 는(은) {enSkill}를 사용했다! """)
+                            damageDec(attack(pkmRed.getType(), myPkm.getType()))
+                            myPkm.hpCon(damageCal(pkmRed.getLevel(), random.choice([4,5,6]),
+                                                  attack(pkmRed.getType(), myPkm.getType())))
+                            if (isOver):
+                                break
+                        if isWin == 1:
+                            pass
+                        else:
+                            locIdx -= 1
+                            print(f"""
+    포켓몬 트레이너 레드와의 승부에서 패배했다!
+
+    {Chr.name}은 눈 앞이 깜깜해졌다...
+    서둘러 포켓몬센터로 돌아가자...""")
+                        myPkm.restore()
+                        break
+                    # if isWin==1:
+                    #     break
+                    else:  # toDo_반복문
+                        print("""
+    레드의 위압감에 몸을 움직일 수 없다!
+    """)
+                if isWin == 0:
+                    break
+                if finalWin == True:
+                    print("""
+    포켓몬 트레이너 레드와의 승부에서 승리했다!""")
+                    print("=" * 150)
+                    time.sleep(2)
+                    print("""
+    ... ... ...!
+    """)
+                    print("=" * 150)
+                    break
+
+        else:
+            print("""
+    단단히 준비를 해야할 것 같다...
+                """)
+    else:
+        print("""
+    ???의 위압감에 몸을 움직일 수 없다
+    """)
+
+    if finalWin == True:
+        break
+
+print(f"""
+{Chr.name}은 포켓몬 마스터가 되었다..!\n""")
+
 print("="*150)
 print(" "*64 + "- THE END -")
 print("="*150)
