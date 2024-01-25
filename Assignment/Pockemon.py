@@ -737,6 +737,7 @@ while True:
     잠시 휴식을 취하자...""")
                             myPkm.restore()
                             mewtwo.hp = 10 + 490 * (mewtwo.level - 1) / 99
+                            break
                     else:
                         print("""
     도망칠 수 없다!\n""")
@@ -760,7 +761,7 @@ while True:
     포켓몬리그 챔피언이 두려워할 필요는 없다""")
 # 레드
 print("="*150)
-print("현재 위치 : 태초마을")
+print("\n현재 위치 : 태초마을")
 print(f"""
     오 {Chr.name}! 
     뮤츠를 쓰러뜨리다니 정말 대단하구나!
@@ -801,11 +802,11 @@ while True:
         enter = input('3년전, 혼자 로켓단을 해산시키고 포켓몬리그 챔피언이 된 트레이너다\n정말 모든 준비가 되었나? (y/n) : ')
         if enter == 'y':
             print("=" * 150)
-            time.sleep(5)
+            time.sleep(3)
             print(f"""
     ... ... ...
         """)
-            time.sleep(3)
+            time.sleep(2)
             print("=" * 150)
             print(f"""
     포켓몬 트레이너 레드가 승부를 걸어왔다!""")
@@ -849,7 +850,7 @@ while True:
                             print(f"""
         적 {pkmRed.name} 는(은) {enSkill}를 사용했다! """)
                             damageDec(attack(pkmRed.getType(), myPkm.getType()))
-                            myPkm.hpCon(damageCal(pkmRed.getLevel(), random.choice([4,5,6]),
+                            myPkm.hpCon(damageCal(pkmRed.getLevel(), random.choice([2,3,4,5,6]),
                                                   attack(pkmRed.getType(), myPkm.getType())))
                             if (isOver):
                                 break
@@ -859,7 +860,9 @@ while True:
                             locIdx -= 1
                             print(f"""
     포켓몬 트레이너 레드와의 승부에서 패배했다!
-
+    """ +
+"="*150 + "\n\n... ... ...\n\n"+"="*150+
+    f"""
     {Chr.name}은 눈 앞이 깜깜해졌다...
     서둘러 포켓몬센터로 돌아가자...""")
                         myPkm.restore()
@@ -874,7 +877,7 @@ while True:
                     break
                 if finalWin == True:
                     print("""
-    포켓몬 트레이너 레드와의 승부에서 승리했다!""")
+    포켓몬 트레이너 레드와의 승부에서 승리했다!\n""")
                     print("=" * 150)
                     time.sleep(2)
                     print("""
