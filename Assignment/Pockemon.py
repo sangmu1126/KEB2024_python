@@ -380,6 +380,7 @@ print(f"""
     이 세계에는 수많은 포켓몬들이 있단다.
     이곳을 여행하기 위해서는 포켓몬의 도움이 필요해.   
     """)
+# 파이리 권장
 startPkm = input('너와 함께할 포켓몬을 고르렴!\n'
                  '1. 이상해씨\n'
                  '2. 파이리\n'
@@ -411,7 +412,7 @@ rival = MyMon.rivalMon(myPkm)
 rival.setInfo(PockemonStarting[rival.name])
 PockemonChampion[rival.name] = PockemonChampion.pop('역상성')
 PockemonChampion[rival.name][1] = rival.getType()
-print(rival.getType())
+#print(rival.getType())
 # 역타입 추가
 
 act = 0
@@ -608,7 +609,7 @@ while True:
     포켓몬리그 챔피언 '그린'과의 승부에서 승리했다!""")
                     print("="*150)
                     print("""
-    어째서, 어쨰서 내가 진거지? 포켓몬을 키우면서 어떤 실수도 하지 않았는데...
+    어째서, 어째서 내가 진거지? 포켓몬을 키우면서 어떤 실수도 하지 않았는데...
     젠장! 네가 포켓몬리그의 새로운 챔피언이야!
     인정하고 싶지는 않지만...
     """)
@@ -754,7 +755,8 @@ while True:
     다시 돌아갈 수는 없을 것 같다\n""")
         print("="*150)
         print(f"""
-    마을로 돌아가자\n""")
+    마을로 돌아가자""")
+        myPkm.restore()
         break
     else:
         print("""
@@ -850,7 +852,7 @@ while True:
                             print(f"""
         적 {pkmRed.name} 는(은) {enSkill}를 사용했다! """)
                             damageDec(attack(pkmRed.getType(), myPkm.getType()))
-                            myPkm.hpCon(damageCal(pkmRed.getLevel(), random.choice([2,3,4,5,6]),
+                            myPkm.hpCon(damageCal(pkmRed.getLevel(), random.choice([2,3,4,5,6,7]),
                                                   attack(pkmRed.getType(), myPkm.getType())))
                             if (isOver):
                                 break
@@ -859,10 +861,12 @@ while True:
                         else:
                             locIdx -= 1
                             print(f"""
-    포켓몬 트레이너 레드와의 승부에서 패배했다!
-    """ +
-"="*150 + "\n\n... ... ...\n\n"+"="*150+
-    f"""
+    포켓몬 트레이너 레드와의 승부에서 패배했다!\n""")
+                            print("="*150)
+                            print("""
+    ... ... ...\n""")
+                            print("="*150)
+                            print(f"""
     {Chr.name}은 눈 앞이 깜깜해졌다...
     서둘러 포켓몬센터로 돌아가자...""")
                         myPkm.restore()
@@ -899,8 +903,8 @@ while True:
         break
 
 print(f"""
-{Chr.name}은 포켓몬 마스터가 되었다..!\n""")
-
+    {Chr.name}은 포켓몬 마스터가 되었다..!\n""")
+time.sleep(3)
 print("="*150)
 print(" "*64 + "- THE END -")
 print("="*150)
